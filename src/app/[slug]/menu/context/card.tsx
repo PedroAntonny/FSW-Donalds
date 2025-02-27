@@ -30,12 +30,26 @@ import { createContext, useState } from "react";
     }
 
     const addProduct = (product: CardProduct) => {
-      setProducts(prev => [...prev, product]);
-    }
+      setProducts((prevProducts) => {
+        const existingProduct = prevProducts.find(
+          (prevProduct) => prevProduct.id === product.id
+        );
 
-    // const removeProduct = (productId: string) => {
-    //   setProducts(prev => prev.filter(product => product.id !== productId));
-    // }
+        if (existingProduct) {
+          return prevProducts.map((prevProduct) => {
+            if (prevProduct.id === product.id) {
+              return {
+                ...prevProduct,
+                quantity: prevProduct.quantity + product.quantity,
+              };
+            }
+            return prevProduct;
+          });
+        } else {
+          return [...prevProducts, product];
+        }
+      });
+    }
 
     return (
       <CardContext.Provider value={{
