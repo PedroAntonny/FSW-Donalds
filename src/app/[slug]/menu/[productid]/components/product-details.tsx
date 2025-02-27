@@ -22,7 +22,7 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const { toggleCard } = useContext(CardContext);
+  const { toggleCard, addProduct } = useContext(CardContext);
   const [quantity, setQuantity] = useState<number>(1);
 
   const handleDecreaseQuantity = () => {
@@ -37,6 +37,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   }
 
   const handleAddToCard = () => {
+    addProduct({
+      ...product,
+      quantity,
+    })
     toggleCard();
   }
 
