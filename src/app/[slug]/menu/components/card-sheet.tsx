@@ -1,8 +1,9 @@
 import { useContext } from "react";
 
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 import { CardContext } from "../context/card";
+import CardProductItem from "./card-product-item";
 
 
 
@@ -11,15 +12,16 @@ const CardSheet = () => {
 
   return ( 
        <Sheet open={isOpen} onOpenChange={toggleCard}>
-          <SheetContent>
+          <SheetContent className="w-[80%]">
             <SheetHeader>
-              <SheetTitle>Sacola</SheetTitle>
-              <SheetDescription></SheetDescription>
-              {products.map(product => {
+              <SheetTitle className="text-left">Sacola</SheetTitle>
+              <div className="py-5">
+                 {products.map(product => {
                 return (
-                  <h1 key={product.id}>{product.name} - {product.quantity}</h1>
+                  <CardProductItem key={product.id} product={product} />
                 )
               })}
+              </div>
             </SheetHeader>
           </SheetContent>
       </Sheet>
