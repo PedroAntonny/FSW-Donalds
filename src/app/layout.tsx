@@ -3,6 +3,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 
+import { Toaster } from '@/components/ui/sonner'
+
 import { CardProvider } from './[slug]/menu/context/card'
 
 const poppins = Poppins({
@@ -26,6 +28,8 @@ export default function RootLayout({
         <CardProvider>
           {children}
         </CardProvider>
+
+        <Toaster />
       </body>
     </html>
   )
