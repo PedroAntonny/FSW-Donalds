@@ -10,6 +10,7 @@ import { createContext, useState } from "react";
   export interface ICardContext {
     isOpen: boolean;
     products: CardProduct[];
+    total: number;
     toggleCard: () => void;
     addProduct: (product: CardProduct) => void;
     decreaseProductQuantity: (productId: string) => void;
@@ -20,6 +21,7 @@ import { createContext, useState } from "react";
   export const CardContext = createContext<ICardContext>({
     isOpen: false,
     products: [],
+    total: 0,
     toggleCard: () => {},
     addProduct: () => {},
     decreaseProductQuantity: () => {},
@@ -30,6 +32,10 @@ import { createContext, useState } from "react";
   export const CardProvider = ({ children }: { children: React.ReactNode }) => {
     const [products, setProducts] = useState<CardProduct[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const total = products.reduce((acc, product) => {
+      return acc + product.price * product.quantity
+    }, 0)
 
     const toggleCard = () => {
       setIsOpen(prev => !prev);
@@ -97,6 +103,7 @@ import { createContext, useState } from "react";
         decreaseProductQuantity,
         increaseProductQuantity,
         removeProduct,
+        total,
       }}>
         {children}
       </CardContext.Provider>
