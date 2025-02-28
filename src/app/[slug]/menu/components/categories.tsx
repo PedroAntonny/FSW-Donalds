@@ -3,11 +3,14 @@
 import { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { formatCurrency } from "@/helpers/format-currency";
 
+import { CardContext } from "../context/card";
+import CardSheet from "./card-sheet";
 import Products from "./products";
 
 interface RestaurantCategoriesProps {
@@ -32,6 +35,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategoryWithProducts>(
     restaurant.menuCategories[0],
   );
+  const { products, total, toggleCard, totalQuantity } = useContext(CardContext)
 
   const handleCategoryClick = (category: MenuCategoryWithProducts) => {
     setSelectedCategory(category);
@@ -42,7 +46,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 
 
   return (
-    <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl bg-white">
+    <div className={`relative z-50 mt-[-1.5rem] rounded-t-3xl bg-white ${products.length > 0 ? 'pb-20' : ''}`}>
       <div className="p-5">
         <div className="flex items-center gap-3">
           <Image
@@ -83,6 +87,18 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 
        <h3 className="px-5 pt-2 font-semibold">{selectedCategory.name}</h3>     
       <Products products={selectedCategory.products} />
+
+      {products.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 flex w-full items-center justify-between border-t bg-white px-5 py-3">
+          <div>
+            <p className="text-xs text-muted-foreground">Total dos pedidos</p>
+            <p className="text-sm font-semibold">{formatCurrency(total)}
+            <span className="text-xs font-normal text-muted-foreground">/ {totalQuantity} {totalQuantity === 1 ? 'item' : 'itens'}</span></p>
+          </div>
+          <Button onClick={toggleCard}>Ver sacola</Button>
+          <CardSheet />
+        </div>
+      )}
     </div>
   );
 };

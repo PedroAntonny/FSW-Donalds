@@ -11,6 +11,7 @@ import { createContext, useState } from "react";
     isOpen: boolean;
     products: CardProduct[];
     total: number;
+     totalQuantity: number;
     toggleCard: () => void;
     addProduct: (product: CardProduct) => void;
     decreaseProductQuantity: (productId: string) => void;
@@ -22,6 +23,7 @@ import { createContext, useState } from "react";
     isOpen: false,
     products: [],
     total: 0,
+    totalQuantity: 0,
     toggleCard: () => {},
     addProduct: () => {},
     decreaseProductQuantity: () => {},
@@ -35,6 +37,10 @@ import { createContext, useState } from "react";
 
     const total = products.reduce((acc, product) => {
       return acc + product.price * product.quantity
+    }, 0)
+
+    const totalQuantity = products.reduce((acc, product) => {
+      return acc + product.quantity
     }, 0)
 
     const toggleCard = () => {
@@ -104,6 +110,7 @@ import { createContext, useState } from "react";
         increaseProductQuantity,
         removeProduct,
         total,
+        totalQuantity,
       }}>
         {children}
       </CardContext.Provider>
