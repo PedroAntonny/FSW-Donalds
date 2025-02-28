@@ -12,9 +12,9 @@ const CardSheet = () => {
 
   return ( 
        <Sheet open={isOpen} onOpenChange={toggleCard}>
-          <SheetContent className="w-[80%]">
+          <SheetContent className="w-[85%]">
             <SheetHeader>
-              <SheetTitle className="text-left">Sacola</SheetTitle>
+              <SheetTitle>Sacola</SheetTitle>
               <div className="py-5">
                  {products.map(product => {
                 return (

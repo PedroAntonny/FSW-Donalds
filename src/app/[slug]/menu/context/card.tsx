@@ -13,6 +13,7 @@ import { createContext, useState } from "react";
     toggleCard: () => void;
     addProduct: (product: CardProduct) => void;
     decreaseProductQuantity: (productId: string) => void;
+    increaseProductQuantity: (productId: string) => void;
   };
 
   export const CardContext = createContext<ICardContext>({
@@ -21,6 +22,7 @@ import { createContext, useState } from "react";
     toggleCard: () => {},
     addProduct: () => {},
     decreaseProductQuantity: () => {},
+    increaseProductQuantity: () => {},
   })
 
   export const CardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -67,6 +69,17 @@ import { createContext, useState } from "react";
       })
     }
 
+    const increaseProductQuantity = (productId: string) => {
+      setProducts((prevProducts) => {
+        return prevProducts.map((prevProduct) => {
+          if (prevProduct.id !== productId) {
+            return prevProduct;
+          }
+          return {...prevProduct, quantity: prevProduct.quantity + 1}
+        })
+      })
+    }
+
     return (
       <CardContext.Provider value={{
         isOpen,
@@ -74,6 +87,7 @@ import { createContext, useState } from "react";
         toggleCard,
         addProduct,
         decreaseProductQuantity,
+        increaseProductQuantity,
       }}>
         {children}
       </CardContext.Provider>
