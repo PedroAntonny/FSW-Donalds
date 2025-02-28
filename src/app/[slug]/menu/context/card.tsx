@@ -14,6 +14,7 @@ import { createContext, useState } from "react";
     addProduct: (product: CardProduct) => void;
     decreaseProductQuantity: (productId: string) => void;
     increaseProductQuantity: (productId: string) => void;
+    removeProduct: (productId: string) => void;
   };
 
   export const CardContext = createContext<ICardContext>({
@@ -23,6 +24,7 @@ import { createContext, useState } from "react";
     addProduct: () => {},
     decreaseProductQuantity: () => {},
     increaseProductQuantity: () => {},
+    removeProduct: () => {},
   })
 
   export const CardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -80,6 +82,12 @@ import { createContext, useState } from "react";
       })
     }
 
+    const removeProduct = (productId: string) => {
+      setProducts((prevProducts) => {
+        return prevProducts.filter((prevProduct) => prevProduct.id !== productId)
+      })
+    }
+
     return (
       <CardContext.Provider value={{
         isOpen,
@@ -88,6 +96,7 @@ import { createContext, useState } from "react";
         addProduct,
         decreaseProductQuantity,
         increaseProductQuantity,
+        removeProduct,
       }}>
         {children}
       </CardContext.Provider>
